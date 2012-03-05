@@ -1,4 +1,4 @@
-SAVE_DIR = '/home/erwin/gits/crap/save/plots/final/'
+SAVE_DIR = '/home/erwin/plots/'
 
 from pylab import *
 
@@ -19,8 +19,8 @@ def plot_cloud_fraction(cloud_fraction_group):
     fig = figure()
     cfrac_x_axis = range(N)
     cfrac_plot = plot(cfrac_x_axis, land_cfrac, 'ro-', \
-            cfrac_x_axis, water_cfrac, 'bo-', \
-            cfrac_x_axis, total_cfrac, 'go-')
+                      cfrac_x_axis, water_cfrac, 'bo-', \
+                      cfrac_x_axis, total_cfrac, 'go-')
     xticks(cfrac_x_axis, cfrac_years, rotation=20)
     xlabel('Year')
     ylabel('Cloud Fraction (%)')
@@ -30,13 +30,14 @@ def plot_cloud_fraction(cloud_fraction_group):
     acq_day = cloud_fraction_group[0][2]
     acq_time = cloud_fraction_group[0][3]
     title(acq_satellite + ' ' + \
-            'Group ' + acq_day + \
-            ' ' + acq_time + ' Hours')
+          'Group ' + acq_day + \
+          ' ' + acq_time + ' Hours')
     legend(('Over Land', 'Over Water', 'Total'), \
-                'lower left', shadow=True, fancybox=True)
+            'lower right', shadow=True, fancybox=True)
     
     plot_name = acq_satellite + '-' + \
-                        acq_day + '-' + \
-                        acq_time + '.png'
+                acq_day + '-' + \
+                acq_time + '.png'
     savefig(SAVE_DIR + plot_name)
     close(fig)
+

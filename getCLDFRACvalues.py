@@ -26,11 +26,12 @@ def get_cloud_fraction_values(file_name):
                 init = i
         
         cloud_fraction_values.append([acq_satellite, \
-                                                        acq_year, \
-                                                        acq_day, \
-                                                        acq_time, \
-                                                        cloud_fraction[0], \
-                                                        cloud_fraction[1], \
-                                                        cloud_fraction[2]])
+                                      acq_year, \
+                                      acq_day, \
+                                      acq_time, \
+                                      cloud_fraction[0], \
+                                      cloud_fraction[1], \
+                                      cloud_fraction[2]])
     
     return cloud_fraction_values
+

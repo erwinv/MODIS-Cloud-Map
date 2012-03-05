@@ -1,10 +1,7 @@
 # Directory locations
-HDF_DIR = '/media/Expansion Drive/erwin/ladsweb/hdfs/'
-LIST_DIR = '/home/erwin/gits/crap/groups/pruned/'
-SAVE_DIR = '/home/erwin/gits/crap/save/pruned/'
-#HDF_DIR = '/home/erwin/gits/crap/rats/'
-#LIST_DIR = '/home/erwin/gits/crap/rats/lists/'
-#SAVE_DIR = '/home/erwin/gits/crap/rats/pics/'
+HDF_DIR = '/home/erwin/HDFs/'
+LIST_DIR = '/home/erwin/gits/MODIS-Cloud-Map/'
+SAVE_DIR = '/home/erwin/plots/'
 
 # Load all necessary modules/packages
 from pylab import *
@@ -20,10 +17,10 @@ def process_HDF_group(HDF_list, intersect_phil=True):
         return
     
     print '\tCommon area (top, bottom, left, right):' + '\n\t\t' \
-            + str(round(top,2)) + ', ' \
-            + str(round(bottom,2)) + ', ' \
-            +str(round(left,2)) + ', ' \
-            +str(round(right,2))
+          + str(round(top,2)) + ', ' \
+          + str(round(bottom,2)) + ', ' \
+          +str(round(left,2)) + ', ' \
+          +str(round(right,2))
     
     if intersect_phil:
         print '\tINTERSECTING TO PHILIPPINE AREA'
@@ -33,10 +30,10 @@ def process_HDF_group(HDF_list, intersect_phil=True):
             return
         else:
             print '\tIntersection (top, bottom, left, right): ' + '\n\t\t' \
-                    + str(round(top,2)) + ', ' \
-                    + str(round(bottom,2)) + ', ' \
-                    +str(round(left,2)) + ', ' \
-                    +str(round(right,2))
+                  + str(round(top,2)) + ', ' \
+                  + str(round(bottom,2)) + ', ' \
+                  +str(round(left,2)) + ', ' \
+                  +str(round(right,2))
     
     print '\n\tCOMPUTING CLOUD FRACTION'
     get_cloud_fraction(HDF_list, top, bottom, left, right)
@@ -70,9 +67,9 @@ def read_HDF_SDS(HDF_list, *data_sets):
 # Use to generate an image preview of the HDF files
 def preview_HDF_files(HDF_list):
     lat, lon, cloud_mask = read_HDF_SDS(HDF_list, \
-                                                                'Latitude',\
-                                                                'Longitude',\
-                                                                'Cloud_Mask')
+                                        'Latitude',\
+                                        'Longitude',\
+                                        'Cloud_Mask')
     input_file = file(LIST_DIR + HDF_list, 'r')
     file_names = input_file.readlines()
     input_file.close()
@@ -101,15 +98,15 @@ def preview_HDF_files(HDF_list):
         cloudiness[r][cloudiness[r]==0] = 100  # cloud
         cloudiness[r][boundary_mask[r]==1] = 0  # overlay boundary
         save_HDF_image(cloudiness[r], file_names[r], \
-                                    tl_lat, tl_lon, tr_lat, tr_lon, \
-                                    bl_lat, bl_lon, br_lat, br_lon, \
-                                    cm.hot)
+                       tl_lat, tl_lon, tr_lat, tr_lon, \
+                       bl_lat, bl_lon, br_lat, br_lon, \
+                       cm.hot)
     print 'Done.\n'
 
 def save_HDF_image(image_map, file_name, \
-                                        tl_lat, tl_lon, tr_lat, tr_lon, \
-                                        bl_lat, bl_lon, br_lat, br_lon, \
-                                        color_map):
+                   tl_lat, tl_lon, tr_lat, tr_lon, \
+                   bl_lat, bl_lon, br_lat, br_lon, \
+                   color_map):
     fig = figure()
     img = imshow(image_map, cmap=color_map)
     xticks([])
@@ -117,13 +114,13 @@ def save_HDF_image(image_map, file_name, \
     x, y = shape(image_map)
     m, n = y, x
     text(0, -5, '(' + str(tl_lon) + ',' + str(tl_lat) + ')', \
-            ha='left', va='bottom')
+         ha='left', va='bottom')
     text(m, -5, '(' + str(tr_lon) + ',' + str(tr_lat) + ')', \
-            ha='right', va='bottom')
+         ha='right', va='bottom')
     text(0, n+5, '(' + str(bl_lon) + ',' + str(bl_lat) + ')', \
-            ha='left', va='top')
+         ha='left', va='top')
     text(m, n+5, '(' + str(br_lon) + ',' + str(br_lat) + ')', \
-            ha='right', va='top')
+         ha='right', va='top')
     colorbar(mappable=img)
     savefig(SAVE_DIR + file_name[0:22] + '.png')
     close(fig)
@@ -157,9 +154,9 @@ def check_common_area(HDF_list):
         common_area_left = common_area_right = NaN
     
     return common_area_top, \
-                common_area_bottom, \
-                common_area_left, \
-                common_area_right
+           common_area_bottom, \
+           common_area_left, \
+           common_area_right
 
 # Use to intersect area bounded by coordinates to Philippine area
 def intersect_phil_area(top, bottom, left, right):
@@ -174,9 +171,9 @@ def intersect_phil_area(top, bottom, left, right):
         intersection_left = intersection_right = NaN
     
     return intersection_top, \
-                intersection_bottom, \
-                intersection_left, \
-                intersection_right
+           intersection_bottom, \
+           intersection_left, \
+           intersection_right
 
 # Use to group HDF files into groups with roughly the same area
 def group_HDF_files(file_list):
@@ -226,9 +223,9 @@ def group_HDF_files(file_list):
 # Use to generate cloud fraction images and values
 def get_cloud_fraction(HDF_list, top, bottom, left, right):
     lat, lon, cloud_mask = read_HDF_SDS(HDF_list, \
-                                                                'Latitude', \
-                                                                'Longitude', \
-                                                                'Cloud_Mask')
+                                        'Latitude', \
+                                        'Longitude', \
+                                        'Cloud_Mask')
     lat, lon, cloud_mask = correct_inversion(lat, lon, cloud_mask)
     
     input_file = file(LIST_DIR + HDF_list, 'r')
@@ -307,9 +304,9 @@ def get_cloud_fraction(HDF_list, top, bottom, left, right):
     total_cloud_fraction = round(sum(total_cloud_fraction) / N, 2)
     out_file = file(SAVE_DIR + 'cloud_fraction_values.txt', 'a')
     out_file.write(HDF_list + '-' \
-                        + str(land_cloud_fraction) + '-' \
-                        + str(water_cloud_fraction) + '-' \
-                        + str(total_cloud_fraction) + '\n')
+                   + str(land_cloud_fraction) + '-' \
+                   + str(water_cloud_fraction) + '-' \
+                   + str(total_cloud_fraction) + '\n')
     out_file.close()
     
     print '\tPlotting...'
@@ -330,9 +327,9 @@ def get_cloud_fraction(HDF_list, top, bottom, left, right):
             cloudiness[0] += cloudiness[r]
     cloudiness[0][boundary_mask==1] = 0  # overlay boundaries
     save_HDF_image(cloudiness[0], HDF_list, \
-                                tl_lat, tl_lon, tr_lat, tr_lon, \
-                                bl_lat, bl_lon, br_lat, br_lon, \
-                                cm.jet)
+                   tl_lat, tl_lon, tr_lat, tr_lon, \
+                   bl_lat, bl_lon, br_lat, br_lon, \
+                   cm.jet)
 
 # Use to correct inverted orientations
 def correct_inversion(lat, lon, cloud_mask=[]):
@@ -362,6 +359,9 @@ def bitmask_cloud_mask(mask_matrices, bit_mask):
 
 # Use to expand m by n matrix to x by y using linear interpolation
 def expand_matrix(map_matrix, x, y):
+    map_interp = (expand_matrix1(map_matrix, x, y) + expand_matrix2(map_matrix, x, y)) / 2.0
+    return map_interp
+def expand_matrix1(map_matrix, x, y):
     m, n = shape(map_matrix)
     map_hor_exp = zeros((m, y))
     map_interp = zeros((x, y))
@@ -369,7 +369,15 @@ def expand_matrix(map_matrix, x, y):
         map_hor_exp[i] = interp(linspace(0,n-1,y), linspace(0,n-1,n), map_matrix[i])
     for j in range(y):
         map_interp[:,j] = interp(linspace(0,m-1,x), linspace(0,m-1,m), map_hor_exp[:,j])
-    
+    return map_interp
+def expand_matrix2(map_matrix, x, y):
+    m, n = shape(map_matrix)
+    map_vert_exp = zeros((x, n))
+    map_interp = zeros((x, y))
+    for j in range(n):
+        map_vert_exp[:,j] = interp(linspace(0,m-1,x), linspace(0,m-1,m), map_matrix[:,j])
+    for i in range(x):
+        map_interp[i] = interp(linspace(0,n-1,y), linspace(0,n-1,n), map_vert_exp[i])
     return map_interp
 
 # Use to find index of corners
@@ -382,11 +390,11 @@ def index_of_corners(lat, lon, top, left, bottom, right):
     intersect_count = 2
     while intersect_count != 1:
         intersect_lat = intersect1d(find((top - corner_radius) < lat), \
-                                                    find(lat < top))
+                                    find(lat < top))
         intersect_lon = intersect1d(find(left < lon), \
-                                                    find(lon < (left + corner_radius)))
+                                    find(lon < (left + corner_radius)))
         intersection = intersect1d(intersect_lat, \
-                                                    intersect_lon)
+                                   intersect_lon)
         intersect_count = size(intersection)
         if intersect_count > 1:
             corner_radius = corner_radius - (alg_ceiling - alg_floor) / 2.0
@@ -410,11 +418,11 @@ def index_of_corners(lat, lon, top, left, bottom, right):
     intersect_count = 2
     while intersect_count != 1:
         intersect_lat = intersect1d(find(bottom < lat), \
-                                                    find(lat < (bottom + corner_radius)))
+                                    find(lat < (bottom + corner_radius)))
         intersect_lon = intersect1d(find((right - corner_radius) < lon), \
-                                                    find(lon < right))
+                                    find(lon < right))
         intersection = intersect1d(intersect_lat, \
-                                                    intersect_lon)
+                                   intersect_lon)
         intersect_count = size(intersection)
         if intersect_count > 1:
             corner_radius = corner_radius - (alg_ceiling - alg_floor) / 2.0
@@ -440,3 +448,4 @@ def trim_matrix(map_matrix, I, J, K, L):
     map_matrix = delete(map_matrix,range(0,J),1)
     
     return map_matrix
+

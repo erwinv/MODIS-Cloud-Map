@@ -1,4 +1,4 @@
-SAVE_DIR = '/home/erwin/gits/crap/save/plots/final/'
+SAVE_DIR = '/home/erwin/plots/'
 
 from pylab import *
 
@@ -75,3 +75,4 @@ def plot_cfracs_across_years(cloud_fraction_groups, cfrac='total'):
     
     savefig(SAVE_DIR + save_name)
     close(fig)
+

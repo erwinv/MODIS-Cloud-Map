@@ -28,3 +28,4 @@ def get_cloud_fraction_groups(my_list):
             list_of_groups.append([every_file])
 
     return list_of_groups
+
